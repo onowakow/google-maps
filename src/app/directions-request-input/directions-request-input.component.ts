@@ -12,8 +12,6 @@ export class DirectionsRequestInputComponent {
     destination: new FormControl('Fort Collins, CO'),
   });
 
-  constructor() {}
-
   onSubmit() {
     /**
      * Eventually send form value to Subject and let another component call
