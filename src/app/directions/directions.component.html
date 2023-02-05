@@ -1,1 +1,14 @@
-<p>directions works!</p>
+<ng-container *ngIf="directions">
+  <h3>Directions</h3>
+  <p>
+    {{ directions.routes[0].legs[0].start_address }} to
+    {{ directions.routes[0].legs[0].end_address }}
+  </p>
+  <ul class="list-group">
+    <li
+      *ngFor="let step of directions.routes[0].legs[0].steps"
+      class="list-group-item"
+      [innerHtml]="step.html_instructions"
+    ></li>
+  </ul>
+</ng-container>
