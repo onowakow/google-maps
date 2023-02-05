@@ -12,11 +12,12 @@ export class DirectionsRequestInputComponent {
     destination: new FormControl('Fort Collins, CO'),
   });
 
-  /**
-   * Eventually send form value to Subject and let another component call
-   */
+  constructor() {}
 
   onSubmit() {
+    /**
+     * Eventually send form value to Subject and let another component call
+     */
     console.warn(this.directionRequestForm.value);
   }
 }
