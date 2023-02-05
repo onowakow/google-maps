@@ -16,16 +16,6 @@ export class DirectionsFormComponent {
   constructor(private directionsService: DirectionsService) {}
 
   onSubmit() {
-    const directions$ = this.directionsService.getDirections$(
-      this.directionRequestForm.getRawValue()
-    );
-
-    directions$.subscribe((result) => {
-      console.log(result);
-    });
-    /**
-     * Eventually send form value to Subject and let another component call
-     */
-    console.warn(this.directionRequestForm.value);
+    this.directionsService.params = this.directionRequestForm.getRawValue();
   }
 }

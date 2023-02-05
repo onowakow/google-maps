@@ -1,4 +1,4 @@
-<ng-container *ngIf="directions">
+<ng-container *ngIf="directions$ | async as directions; else elseBlock">
   <h3>Directions</h3>
   <p>
     {{ directions.routes[0].legs[0].start_address }} to
@@ -12,3 +12,6 @@
     ></li>
   </ul>
 </ng-container>
+<ng-template #elseBlock>
+  <p #elseBlock>No directions.</p>
+</ng-template>
