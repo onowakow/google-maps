@@ -3,11 +3,11 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { DirectionsService } from '../directions.service';
 
 @Component({
-  selector: 'app-directions-request-input',
-  templateUrl: './directions-request-input.component.html',
-  styleUrls: ['./directions-request-input.component.css'],
+  selector: 'app-directions-form',
+  templateUrl: './directions-form.component.html',
+  styleUrls: ['./directions-form.component.css'],
 })
-export class DirectionsRequestInputComponent {
+export class DirectionsFormComponent {
   directionRequestForm = new FormGroup({
     origin: new FormControl('Laramie, WY', { nonNullable: true }),
     destination: new FormControl('Fort Collins, CO', { nonNullable: true }),

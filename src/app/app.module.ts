@@ -5,10 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DirectionsRequestInputComponent } from './directions-request-input/directions-request-input.component';
+import { DirectionsFormComponent } from './directions-form/directions-form.component';
+import { DirectionsComponent } from './directions/directions.component';
 
 @NgModule({
-  declarations: [AppComponent, DirectionsRequestInputComponent],
+  declarations: [AppComponent, DirectionsComponent, DirectionsFormComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
