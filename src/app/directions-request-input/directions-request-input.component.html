@@ -1,0 +1,27 @@
+<div class="col-md-6">
+  <form (ngSubmit)="onSubmit()" [formGroup]="directionRequestForm">
+    <div class="mb-3">
+      <label for="originFormControlInput" class="form-label">Origin</label>
+      <input
+        formControlName="origin"
+        id="originFormControlInput"
+        type="text"
+        class="form-control"
+        placeholder="Laramie, WY"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="destinationFormControlInput" class="form-label"
+        >Destination</label
+      >
+      <input
+        formControlName="destination"
+        id="destinationFormControlInput"
+        type="text"
+        class="form-control"
+        placeholder="Fort Collins, CO"
+      />
+    </div>
+    <button type="submit" class="btn btn-success">Get Directions</button>
+  </form>
+</div>
