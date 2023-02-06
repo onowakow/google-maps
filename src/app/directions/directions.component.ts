@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { DirectionsService } from '../directions.service';
+import { Component, Input } from '@angular/core';
+import { Directions } from '../shared/directions.model';
 
 @Component({
   selector: 'app-directions',
@@ -7,7 +7,5 @@ import { DirectionsService } from '../directions.service';
   styleUrls: ['./directions.component.css'],
 })
 export class DirectionsComponent {
-  constructor(private _directions: DirectionsService) {}
-
-  directions$ = this._directions.directions$;
+  @Input() directions: Directions;
 }

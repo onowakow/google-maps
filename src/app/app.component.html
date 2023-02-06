@@ -9,7 +9,14 @@
       </div>
     </nav>
   </div>
-  <app-directions-form></app-directions-form>
-  <hr />
-  <app-directions></app-directions>
+  <ng-container *ngIf="directions$ | async as directions">
+    <app-directions-form
+      [directionsLoading]="directions.isLoading"
+    ></app-directions-form>
+    <hr />
+    <app-directions
+      *ngIf="directions.value"
+      [directions]="directions.value"
+    ></app-directions>
+  </ng-container>
 </div>

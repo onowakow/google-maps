@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DirectionsService } from '../directions.service';
 
@@ -8,6 +8,8 @@ import { DirectionsService } from '../directions.service';
   styleUrls: ['./directions-form.component.css'],
 })
 export class DirectionsFormComponent {
+  @Input() directionsLoading: boolean;
+
   directionRequestForm = new FormGroup({
     origin: new FormControl('Laramie, WY', {
       nonNullable: true,
@@ -18,8 +20,6 @@ export class DirectionsFormComponent {
       validators: [Validators.required],
     }),
   });
-
-  directions$ = this.directionsService.directions$;
 
   constructor(private directionsService: DirectionsService) {}
 

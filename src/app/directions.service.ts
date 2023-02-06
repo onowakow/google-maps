@@ -10,7 +10,8 @@ import {
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DirectionParams } from './shared/directionParams.model';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Directions } from './shared/directions.model';
 const { API_URL } = environment;
 
 export interface HttpRequestState<T> {
@@ -30,7 +31,7 @@ export class DirectionsService {
     destination: '',
   });
 
-  private _directions$: Observable<HttpRequestState<any | null>> =
+  private _directions$: Observable<HttpRequestState<Directions | null>> =
     this._directionsParams$.pipe(
       switchMap((params) => {
         if (!params.origin || !params.destination) {

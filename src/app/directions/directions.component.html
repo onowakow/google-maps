@@ -1,24 +1,18 @@
-<ng-container *ngIf="directions$ | async as directions; else elseBlock">
-  <h3>Directions</h3>
-  <!-- TODO: write switch for error/loading/value -->
-  <ng-container *ngIf="directions.value?.routes[0].legs[0] as routeLeg">
-    <p>
-      {{ routeLeg.start_address }} to
-      {{ routeLeg.end_address }}
-    </p>
-    <p>
-      {{ routeLeg.distance.text }},
-      {{ routeLeg.duration.text }}
-    </p>
-    <ul class="list-group">
-      <li
-        *ngFor="let step of routeLeg.steps"
-        class="list-group-item"
-        [innerHtml]="step.html_instructions"
-      ></li>
-    </ul>
-  </ng-container>
+<h3>Directions</h3>
+<ng-container *ngIf="directions.routes[0].legs[0] as routeLeg">
+  <p>
+    {{ routeLeg.start_address }} to
+    {{ routeLeg.end_address }}
+  </p>
+  <p>
+    {{ routeLeg.distance.text }},
+    {{ routeLeg.duration.text }}
+  </p>
+  <ul class="list-group">
+    <li
+      *ngFor="let step of routeLeg.steps"
+      class="list-group-item"
+      [innerHtml]="step.html_instructions"
+    ></li>
+  </ul>
 </ng-container>
-<ng-template #elseBlock>
-  <p #elseBlock>No directions.</p>
-</ng-template>
