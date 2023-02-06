@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DirectionsService } from '../directions.service';
 
 @Component({
@@ -6,12 +6,8 @@ import { DirectionsService } from '../directions.service';
   templateUrl: './directions.component.html',
   styleUrls: ['./directions.component.css'],
 })
-export class DirectionsComponent implements OnInit {
+export class DirectionsComponent {
   constructor(private _directions: DirectionsService) {}
 
   directions$ = this._directions.directions$;
-
-  ngOnInit() {
-    this.directions$.subscribe((val) => console.log(val));
-  }
 }

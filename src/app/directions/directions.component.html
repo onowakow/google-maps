@@ -4,6 +4,10 @@
     {{ directions.routes[0].legs[0].start_address }} to
     {{ directions.routes[0].legs[0].end_address }}
   </p>
+  <p>
+    {{ directions.routes[0].legs[0].distance.text }},
+    {{ directions.routes[0].legs[0].duration.text }}
+  </p>
   <ul class="list-group">
     <li
       *ngFor="let step of directions.routes[0].legs[0].steps"

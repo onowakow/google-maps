@@ -9,6 +9,16 @@
         class="form-control"
         placeholder="Laramie, WY"
       />
+      <p
+        class="text-danger mt-1"
+        *ngIf="
+          directionRequestForm.get('origin')?.invalid &&
+          (directionRequestForm.get('origin')?.touched ||
+            directionRequestForm.get('origin')?.dirty)
+        "
+      >
+        Origin is required.
+      </p>
     </div>
     <div class="mb-3">
       <label for="destinationFormControlInput" class="form-label"
@@ -21,7 +31,34 @@
         class="form-control"
         placeholder="Fort Collins, CO"
       />
+      <p
+        class="text-danger mt-1"
+        *ngIf="
+          directionRequestForm.get('destination')?.invalid &&
+          (directionRequestForm.get('destination')?.touched ||
+            directionRequestForm.get('destination')?.dirty)
+        "
+      >
+        Destination is required.
+      </p>
     </div>
-    <button type="submit" class="btn btn-success">Get Directions</button>
+    <div class="div">
+      <div
+        *ngIf="directionsLoading$ | async; else submitButton"
+        class="spinner-border"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <ng-template #submitButton>
+        <button
+          *ngIf="directionRequestForm.valid"
+          type="submit"
+          class="btn btn-success"
+        >
+          Get Directions
+        </button>
+      </ng-template>
+    </div>
   </form>
 </div>
