@@ -19,7 +19,7 @@ export class DirectionsFormComponent {
     }),
   });
 
-  directionsLoading$ = this.directionsService.loading$;
+  directions$ = this.directionsService.directions$;
 
   constructor(private directionsService: DirectionsService) {}
 

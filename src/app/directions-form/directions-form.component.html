@@ -44,7 +44,7 @@
     </div>
     <div class="div">
       <div
-        *ngIf="directionsLoading$ | async; else submitButton"
+        *ngIf="(directions$ | async)?.isLoading; else submitButton"
         class="spinner-border"
         role="status"
       >
