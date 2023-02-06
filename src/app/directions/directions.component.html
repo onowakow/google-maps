@@ -1,18 +1,20 @@
-<h3>Directions</h3>
-<ng-container *ngIf="route.legs[0] as routeLeg">
-  <p>
-    {{ routeLeg.start_address }} to
-    {{ routeLeg.end_address }}
-  </p>
-  <p>
-    {{ routeLeg.distance.text }},
-    {{ routeLeg.duration.text }}
-  </p>
-  <ul class="list-group">
-    <li
-      *ngFor="let step of routeLeg.steps"
-      class="list-group-item"
-      [innerHtml]="step.html_instructions"
-    ></li>
-  </ul>
+<ng-container *ngIf="route">
+  <h3>Directions</h3>
+  <ng-container *ngIf="route.legs[0] as routeLeg">
+    <p>
+      {{ routeLeg.start_address }} to
+      {{ routeLeg.end_address }}
+    </p>
+    <p>
+      {{ routeLeg.distance.text }},
+      {{ routeLeg.duration.text }}
+    </p>
+    <ul class="list-group">
+      <li
+        *ngFor="let step of routeLeg.steps"
+        class="list-group-item"
+        [innerHtml]="step.html_instructions"
+      ></li>
+    </ul>
+  </ng-container>
 </ng-container>

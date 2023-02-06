@@ -10,7 +10,12 @@ import { DirectionsComponent } from './directions/directions.component';
 import { ErrorComponent } from './error/error.component';
 
 @NgModule({
-  declarations: [AppComponent, DirectionsComponent, DirectionsFormComponent, ErrorComponent],
+  declarations: [
+    AppComponent,
+    DirectionsComponent,
+    DirectionsFormComponent,
+    ErrorComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
