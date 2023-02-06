@@ -1,20 +1,22 @@
 export type Directions = {
-  routes: [
+  routes?: Route[];
+  error_message?: string;
+  status?: string;
+};
+
+export type Route = {
+  legs: [
     {
-      legs: [
+      distance: { text: string; value: number };
+      duration: { text: string; value: number };
+      end_address: string;
+      start_address: string;
+      steps: [
         {
-          distance: { text: string; value: number };
-          duration: { text: string; value: number };
-          end_address: string;
-          start_address: string;
-          steps: [
-            {
-              html_instructions: string;
-            }
-          ];
+          html_instructions: string;
         }
       ];
-      summary: string;
     }
   ];
+  summary: string;
 };

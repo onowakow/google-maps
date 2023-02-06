@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { DirectionParams } from './shared/directionParams.model';
 import { Observable } from 'rxjs';
 import { Directions } from './shared/directions.model';
+import { GoogleMapsError } from './shared/googleMapsError.model';
 const { API_URL } = environment;
 
 export interface HttpRequestState<T> {
@@ -39,7 +40,12 @@ export class DirectionsService {
         }
 
         return this.http.get(`${API_URL}/directions`, { params }).pipe(
-          map((value) => ({ isLoading: false, value })),
+          map((value: Directions | GoogleMapsError) => {
+            if (value.error_message) {
+              throw new Error(`Google Maps API Error: ${value.error_message}`);
+            }
+            return { isLoading: false, value };
+          }),
           catchError((error) => of({ isLoading: false, error })),
           startWith({ isLoading: true })
         );

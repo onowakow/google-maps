@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Directions } from '../shared/directions.model';
+import { Route } from '../shared/directions.model';
 
 @Component({
   selector: 'app-directions',
@@ -7,5 +7,5 @@ import { Directions } from '../shared/directions.model';
   styleUrls: ['./directions.component.css'],
 })
 export class DirectionsComponent {
-  @Input() directions: Directions;
+  @Input() route: Route;
 }

@@ -14,9 +14,19 @@
       [directionsLoading]="directions.isLoading"
     ></app-directions-form>
     <hr />
-    <app-directions
-      *ngIf="directions.value"
-      [directions]="directions.value"
-    ></app-directions>
+    <app-error *ngIf="directions.error" [error]="directions.error"></app-error>
+    <ng-container *ngIf="directions.value as value">
+      <ng-container *ngIf="value.error_message; else appDirections">
+        <p class="text-danger">
+          Google Maps Api Error: {{ value.error_message }}
+        </p>
+      </ng-container>
+      <ng-template #appDirections>
+        <app-directions
+          *ngIf="value.routes as routes"
+          [route]="value.routes[0]"
+        ></app-directions>
+      </ng-template>
+    </ng-container>
   </ng-container>
 </div>
