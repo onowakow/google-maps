@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DirectionParams } from './shared/directionParams.model';
 import { Observable, Subject } from 'rxjs';
@@ -16,26 +23,25 @@ export interface HttpRequestState<T> {
   providedIn: 'root',
 })
 export class DirectionsService {
-  private _params: DirectionParams | null = null;
-
   constructor(private http: HttpClient) {}
 
-  private _refreshDirections$ = new Subject<void>();
+  private _directionsParams$ = new BehaviorSubject<DirectionParams>({
+    origin: '',
+    destination: '',
+  });
 
   private _directions$: Observable<HttpRequestState<any | null>> =
-    this._refreshDirections$.pipe(
-      switchMap(() => {
-        if (this._params === null) {
-          return of({ isLoading: false, value: null });
+    this._directionsParams$.pipe(
+      switchMap((params) => {
+        if (!params.origin || !params.destination) {
+          return of({ isLoading: false });
         }
 
-        return this.http
-          .get(`${API_URL}/directions`, { params: this._params })
-          .pipe(
-            map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
-          );
+        return this.http.get(`${API_URL}/directions`, { params }).pipe(
+          map((value) => ({ isLoading: false, value })),
+          catchError((error) => of({ isLoading: false, error })),
+          startWith({ isLoading: true })
+        );
       })
     );
 
@@ -44,7 +50,6 @@ export class DirectionsService {
   }
 
   set params(params: DirectionParams) {
-    this._params = params;
-    this._refreshDirections$.next();
+    this._directionsParams$.next(params);
   }
 }
