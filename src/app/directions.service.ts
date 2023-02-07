@@ -58,7 +58,7 @@ export class DirectionsService {
     return this._directions$;
   }
 
-  set params(params: DirectionParams) {
+  updateDirectionParams(params: DirectionParams) {
     this._directionsParams$.next(params);
   }
 }

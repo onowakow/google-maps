@@ -27,6 +27,8 @@ export class DirectionsFormComponent {
     if (this.directionRequestForm.invalid) {
       return;
     }
-    this.directionsService.params = this.directionRequestForm.getRawValue();
+    this.directionsService.updateDirectionParams(
+      this.directionRequestForm.getRawValue()
+    );
   }
 }
