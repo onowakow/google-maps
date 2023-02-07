@@ -6,13 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DirectionsFormComponent } from './directions-form/directions-form.component';
-import { DirectionsComponent } from './directions/directions.component';
+import { DirectionsDisplayComponent } from './directions-display/directions-display.component';
 import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DirectionsComponent,
+    DirectionsDisplayComponent,
     DirectionsFormComponent,
     ErrorComponent,
   ],

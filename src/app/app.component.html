@@ -22,10 +22,10 @@
         </p>
       </ng-container>
       <ng-template #appDirections>
-        <app-directions
+        <app-directions-display
           *ngIf="value.routes as routes"
           [route]="value.routes[0]"
-        ></app-directions>
+        ></app-directions-display>
       </ng-template>
     </ng-container>
   </ng-container>
