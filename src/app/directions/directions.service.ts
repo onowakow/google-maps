@@ -61,7 +61,13 @@ export class DirectionsService {
   }
 
   getDirections(params: DirectionParams) {
-    return this.http.get(`${API_URL}/directions`, { params });
+    return this.http.get(this._apiUrl, { params });
+  }
+
+  private _apiUrl = `${API_URL}/directions`;
+
+  get apiUrl() {
+    return this._apiUrl;
   }
 
   updateDirectionParams(params: DirectionParams) {
