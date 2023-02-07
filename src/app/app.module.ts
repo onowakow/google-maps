@@ -5,9 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DirectionsFormComponent } from './directions-form/directions-form.component';
-import { DirectionsDisplayComponent } from './directions-display/directions-display.component';
+import { DirectionsFormComponent } from './directions/directions-form/directions-form.component';
+import { DirectionsDisplayComponent } from './directions/directions-display/directions-display.component';
 import { ErrorComponent } from './error/error.component';
+import { DirectionsComponent } from './directions/directions.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { ErrorComponent } from './error/error.component';
     DirectionsDisplayComponent,
     DirectionsFormComponent,
     ErrorComponent,
+    DirectionsComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

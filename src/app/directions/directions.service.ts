@@ -9,9 +9,9 @@ import {
   switchMap,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DirectionParams } from './shared/directionParams.model';
+import { DirectionParams } from './directionParams.model';
 import { Observable } from 'rxjs';
-import { Directions } from './shared/directions.model';
+import { Directions } from './directions.model';
 const { API_URL } = environment;
 
 export interface HttpRequestState<T> {

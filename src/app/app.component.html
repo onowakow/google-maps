@@ -1,32 +1,4 @@
 <div class="container-fluid">
-  <div class="row">
-    <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid">
-        <div class="d-flex">
-          <a href="#" class="navbar-brand">Maps Practice UI</a>
-          <span class="earth"></span>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <ng-container *ngIf="directions$ | async as directions">
-    <app-directions-form
-      [directionsLoading]="directions.isLoading"
-    ></app-directions-form>
-    <hr />
-    <app-error *ngIf="directions.error" [error]="directions.error"></app-error>
-    <ng-container *ngIf="directions.value as value">
-      <ng-container *ngIf="value.error_message; else appDirections">
-        <p class="text-danger">
-          Google Maps Api Error: {{ value.error_message }}
-        </p>
-      </ng-container>
-      <ng-template #appDirections>
-        <app-directions-display
-          *ngIf="value.routes as routes"
-          [route]="value.routes[0]"
-        ></app-directions-display>
-      </ng-template>
-    </ng-container>
-  </ng-container>
+  <app-header></app-header>
+  <app-directions></app-directions>
 </div>
