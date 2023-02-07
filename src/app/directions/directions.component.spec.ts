@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ErrorComponent } from '../error/error.component';
 import { DirectionsFormComponent } from './directions-form/directions-form.component';
 
 import { DirectionsComponent } from './directions.component';
@@ -11,7 +12,11 @@ describe('DirectionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DirectionsComponent, DirectionsFormComponent],
+      declarations: [
+        DirectionsComponent,
+        ErrorComponent,
+        DirectionsFormComponent,
+      ],
       imports: [HttpClientTestingModule, ReactiveFormsModule],
     }).compileComponents();
 

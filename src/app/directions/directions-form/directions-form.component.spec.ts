@@ -22,4 +22,31 @@ describe('DirectionsFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should require origin', () => {
+    component.directionRequestForm.setValue({
+      origin: '',
+      destination: 'There',
+    });
+
+    expect(component.directionRequestForm.valid).toEqual(false);
+  });
+
+  it('should require destination', () => {
+    component.directionRequestForm.setValue({
+      origin: 'Here',
+      destination: '',
+    });
+
+    expect(component.directionRequestForm.valid).toEqual(false);
+  });
+
+  it('should be valid if form value is valid', () => {
+    component.directionRequestForm.setValue({
+      origin: 'Here',
+      destination: 'There',
+    });
+
+    expect(component.directionRequestForm.valid).toEqual(true);
+  });
 });

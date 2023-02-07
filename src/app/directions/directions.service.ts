@@ -35,7 +35,9 @@ export class DirectionsService {
     this._directionsParams$.pipe(
       switchMap((params) => {
         if (!params.origin || !params.destination) {
-          return of({ isLoading: false });
+          return of({
+            isLoading: false,
+          });
         }
 
         return this.http.get(`${API_URL}/directions`, { params }).pipe(
