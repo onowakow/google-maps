@@ -40,7 +40,7 @@ export class DirectionsService {
           });
         }
 
-        return this.http.get(`${API_URL}/directions`, { params }).pipe(
+        return this.getDirections(params).pipe(
           map((value: Directions) => {
             if (value.error_message) {
               throw new Error(`Google Maps API Error: ${value.error_message}`);
@@ -58,6 +58,10 @@ export class DirectionsService {
 
   get directions$() {
     return this._directions$;
+  }
+
+  getDirections(params: DirectionParams) {
+    return this.http.get(`${API_URL}/directions`, { params });
   }
 
   updateDirectionParams(params: DirectionParams) {
