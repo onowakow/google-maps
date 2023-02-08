@@ -1,0 +1,26 @@
+<form
+  (ngSubmit)="onSubmitName()"
+  [formGroup]="nameForm"
+  id="nameForm"
+  class="mb-2"
+>
+  <div class="form-group" class="mb-1">
+    <label for="firstNameInput">First Name</label>
+    <input
+      formControlName="firstName"
+      type="text"
+      class="form-control"
+      id="firstNameInput"
+    />
+  </div>
+  <div class="form-group" class="mb-1">
+    <label for="lastNameInput">Last Name</label>
+    <input
+      formControlName="lastName"
+      type="text"
+      class="form-control"
+      id="lastNameInput"
+    />
+  </div>
+  <button type="submit">Submit</button>
+</form>
