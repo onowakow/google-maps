@@ -3,10 +3,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 
 import { DirectionsService } from './directions.service';
+import { Directions } from './directions.model';
+import { DirectionParams } from './directionParams.model';
+import { environment } from 'src/environments/environment';
+const { API_URL } = environment;
 
 describe('DirectionsService', () => {
   let service: DirectionsService;
-  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,37 +17,42 @@ describe('DirectionsService', () => {
     });
 
     service = TestBed.inject(DirectionsService);
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should make a get request', () => {
-    const { apiUrl } = service;
-    const testData = { name: 'Test Data' };
-    const params = {
-      origin: 'here',
-      destination: 'there',
-    };
+  describe('getDirections', () => {
+    let mockDirections: Directions;
+    let mockParams: DirectionParams;
+    let httpTestingController: HttpTestingController;
 
-    service.getDirections(params).subscribe((data) => {
-      expect(data).toEqual(testData);
+    beforeEach(() => {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      mockDirections = {
+        status: 'OK',
+      };
+      mockParams = {
+        origin: 'here',
+        destination: 'there',
+      };
     });
 
-    const req = httpTestingController.expectOne(
-      apiUrl + '?origin=here&destination=there'
-    );
+    afterEach(() => {
+      httpTestingController.verify();
+    });
 
-    expect(req.request.method).toEqual('GET');
+    it('should GET directions', () => {
+      service.getDirections(mockParams).subscribe((data) => {
+        expect(data).toEqual(mockDirections);
+      });
 
-    req.flush(testData);
-
-    httpTestingController.verify();
-  });
-
-  afterEach(() => {
-    httpTestingController.verify();
+      const req = httpTestingController.expectOne(
+        `${API_URL}/directions?origin=here&destination=there`
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockDirections);
+    });
   });
 });
