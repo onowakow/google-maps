@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HeaderComponent } from './header/header.component';
 import { DirectionsComponent } from './directions/directions.component';
-import { MarblesComponent } from './marbles/marbles/marbles.component';
+import { MarblesComponent } from './marbles/marbles.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

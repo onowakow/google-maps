@@ -4,24 +4,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { isObservable } from 'rxjs';
 import { MarblesComponent } from './marbles.component';
-
-/**
- * should have a name input
- * should set a message that name is valid
- * should have a button to submit the name input
- */
+import { environment } from 'src/environments/environment';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+const { API_URL } = environment;
 
 describe('MarblesComponent', () => {
   let component: MarblesComponent;
   let fixture: ComponentFixture<MarblesComponent>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MarblesComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MarblesComponent);
+    httpMock = TestBed.inject(HttpTestingController);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -101,7 +103,7 @@ describe('MarblesComponent', () => {
       expect(component.onSubmitName).toBeTruthy();
     });
 
-    it('should return null if form is invalid', () => {
+    it('should return false if form is invalid', () => {
       component.nameForm.setValue({
         firstName: '',
         lastName: '',
@@ -109,16 +111,6 @@ describe('MarblesComponent', () => {
 
       const isValid = component.onSubmitName();
       expect(isValid).toBeFalse();
-    });
-  });
-
-  describe('#name$', () => {
-    it('should exist', () => {
-      expect(component.name$).toBeTruthy();
-    });
-
-    it('should be observable', () => {
-      expect(isObservable(component.name$)).toBeTruthy();
     });
   });
 });
