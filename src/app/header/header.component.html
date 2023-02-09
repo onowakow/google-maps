@@ -1,9 +1,25 @@
 <div class="row">
   <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
+    <div class="container-fluid justify-content-start">
       <div class="d-flex">
-        <a href="#" id="nav-title" class="navbar-brand">{{ title }}</a>
+        <a routerLink="/" id="nav-title" class="navbar-brand">{{ title }}</a>
         <span class="earth"></span>
+      </div>
+      <div class="navbar-nav ms-3 flex-row">
+        <a
+          class="nav-item nav-link"
+          routerLink="/alpaca"
+          routerLinkActive="active"
+        >
+          Alpaca
+        </a>
+        <a
+          class="nav-link nav-item ms-4"
+          routerLink="/directions"
+          routerLinkActive="active"
+        >
+          Directions
+        </a>
       </div>
     </div>
   </nav>

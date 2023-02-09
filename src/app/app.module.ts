@@ -11,6 +11,7 @@ import { ErrorComponent } from './error/error.component';
 import { DirectionsComponent } from './directions/directions.component';
 import { HeaderComponent } from './header/header.component';
 import { MarblesComponent } from './marbles/marbles.component';
+import { AlpacaComponent } from './alpaca/alpaca.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MarblesComponent } from './marbles/marbles.component';
     DirectionsComponent,
     HeaderComponent,
     MarblesComponent,
+    AlpacaComponent,
   ],
   imports: [
     BrowserModule,
