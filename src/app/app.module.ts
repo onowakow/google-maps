@@ -10,7 +10,7 @@ import { DirectionsDisplayComponent } from './directions/directions-display/dire
 import { ErrorComponent } from './error/error.component';
 import { DirectionsComponent } from './directions/directions.component';
 import { HeaderComponent } from './header/header.component';
-import { MarblesComponent } from './marbles/marbles/marbles.component';
+import { MarblesComponent } from './marbles/marbles.component';
 
 @NgModule({
   declarations: [
