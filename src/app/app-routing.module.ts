@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AlpacaComponent } from './alpaca/alpaca.component';
 import { DirectionsComponent } from './directions/directions.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'alpaca',
     component: AlpacaComponent,

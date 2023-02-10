@@ -1,0 +1,11 @@
+<h1 id="alpaca-dashboard-title">Dashboard</h1>
+<!-- <ng-container
+  *ngIf="accountState$ | async as accountState; else apiUnavailable"
+> -->
+<p id="user-equity">EQUITY {{ 4867.98 | currency }}</p>
+<p id="user-buying-power">BUYING POWER {{ 4867.98 | currency }}</p>
+<p id="user-cash">CASH {{ 4867.98 | currency }}</p>
+<!-- </ng-container> -->
+<ng-template #apiUnavailable>
+  <p class="text-danger">API Unavailable</p>
+</ng-template>
