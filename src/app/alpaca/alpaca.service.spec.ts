@@ -31,15 +31,6 @@ describe('AlpacaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#accountState$ should make an http call', () => {
-    const subscription = service.accountState$.subscribe();
-
-    const req = httpTestingController.expectOne(`${API_URL}/alpaca/account`);
-    req.flush('mockBody');
-
-    subscription.unsubscribe();
-  });
-
   it('#accountState$ should emit HttpRequestState type on http success', () => {
     const subscription = service.accountState$.subscribe((val) => {
       expect(val instanceof HttpRequestState).toEqual(true);
