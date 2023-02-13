@@ -1,12 +1,5 @@
-<h1 id="alpaca-dashboard-title">Dashboard</h1>
-<!--
-  Hierarchy:
-  loading
-  error
-  value
- -->
 <ng-container
-  *ngIf="accountState$ | async as accountState; else somethingWentWrong"
+  *ngIf="accountStatePoll$ | async as accountState; else somethingWentWrong"
 >
   <ng-container *ngIf="accountState.isLoading">
     <div id="account-state-loading">
@@ -20,18 +13,34 @@
       <p class="text-danger">Error: Something went wrong.</p>
     </div>
   </ng-container>
-  <ng-container *ngIf="accountState.value as accountAbout">
-    <div id="account-state-value">
-      <p id="user-equity">
-        EQUITY
-        {{ accountAbout.equity | currency }}
-      </p>
-      <p id="user-buying-power">
-        BUYING POWER {{ accountAbout.buying_power | currency }}
-      </p>
-      <p id="user-cash">CASH {{ accountAbout.cash | currency }}</p>
+  <div *ngIf="accountState.value as accountAbout">
+    <div id="account-state-value" class="row">
+      <div class="col-sm-4 d-flex justify-content-center">
+        <div style="width: fit-content">
+          <small class="text-muted">Equity</small>
+          <h1 id="user-equity">
+            {{ accountAbout.equity | currency }}
+          </h1>
+        </div>
+      </div>
+
+      <div class="col-sm-4 d-flex justify-content-center">
+        <div style="width: fit-content">
+          <small class="text-muted">Buying Power</small>
+          <h1 id="user-buying-power">
+            {{ accountAbout.buying_power | currency }}
+          </h1>
+        </div>
+      </div>
+
+      <div class="col-sm-4 d-flex justify-content-center">
+        <div style="width: fit-content">
+          <small class="text-muted">Cash</small>
+          <h1 id="user-cash">{{ accountAbout.cash | currency }}</h1>
+        </div>
+      </div>
     </div>
-  </ng-container>
+  </div>
 </ng-container>
 <ng-template #somethingWentWrong>
   <p id="account-state-something-went-wrong" class="text-danger">

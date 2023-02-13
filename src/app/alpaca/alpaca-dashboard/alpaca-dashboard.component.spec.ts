@@ -45,14 +45,6 @@ describe('AlpacaDashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a title', () => {
-    const titleDe = fixture.debugElement.query(
-      By.css('#alpaca-dashboard-title')
-    );
-
-    expect(titleDe).toBeTruthy();
-  });
-
   describe('Render account response state', () => {
     let loadingDe: DebugElement;
     let errorDe: DebugElement;
@@ -68,7 +60,7 @@ describe('AlpacaDashboardComponent', () => {
     };
 
     it('should show error message if accountState is falsy', () => {
-      component.accountState$ = of();
+      component.accountStatePoll$ = of();
       fixture.detectChanges();
       const somethingWentWrong = fixture.debugElement.query(
         By.css('#account-state-something-went-wrong')
@@ -78,7 +70,7 @@ describe('AlpacaDashboardComponent', () => {
     });
 
     it('should indicate only loading while loading', () => {
-      component.accountState$ = of(loadingAccountState);
+      component.accountStatePoll$ = of(loadingAccountState);
       fixture.detectChanges();
       loadingDe = getLoadingDe();
       errorDe = getErrorDe();
@@ -90,7 +82,7 @@ describe('AlpacaDashboardComponent', () => {
     });
 
     it('should indicate only error when error', () => {
-      component.accountState$ = of(errorAccountState);
+      component.accountStatePoll$ = of(errorAccountState);
       fixture.detectChanges();
       loadingDe = getLoadingDe();
       errorDe = getErrorDe();
@@ -102,7 +94,7 @@ describe('AlpacaDashboardComponent', () => {
     });
 
     it('should render account state', () => {
-      component.accountState$ = of(valuefulAccountState);
+      component.accountStatePoll$ = of(valuefulAccountState);
       fixture.detectChanges();
       loadingDe = getLoadingDe();
       errorDe = getErrorDe();
@@ -115,7 +107,7 @@ describe('AlpacaDashboardComponent', () => {
 
     describe('Render about account', () => {
       beforeEach(() => {
-        component.accountState$ = of(valuefulAccountState);
+        component.accountStatePoll$ = of(valuefulAccountState);
         fixture.detectChanges();
       });
 
@@ -143,6 +135,6 @@ describe('AlpacaDashboardComponent', () => {
   });
 
   it('should have #accountState$ injected', () => {
-    expect(component.accountState$).toBeTruthy();
+    expect(component.accountStatePoll$).toBeTruthy();
   });
 });
