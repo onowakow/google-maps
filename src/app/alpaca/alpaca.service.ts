@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,10 +14,7 @@ export class AlpacaService {
   accountState$: Observable<HttpRequestState<Account | unknown>> = this.http
     .get<Account>(`${API_URL}/alpaca/account`)
     .pipe(
-      map((value: Account) => {
-        const state = new HttpRequestState(false, value);
-        return state;
-      }),
+      map((account: Account) => new HttpRequestState(false, account)),
       catchError((error) => of(new HttpRequestState(false, null, error))),
       startWith(new HttpRequestState(true))
     );
