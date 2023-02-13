@@ -21,7 +21,7 @@ const valuefulAccountState = new HttpRequestState<Account>(
     account_number: 'ABC123',
     cash: '1234.56',
     buying_power: '4567.89',
-    equity: '1233.33',
+    equity: '1234.56',
   },
   null
 );
@@ -53,24 +53,6 @@ describe('AlpacaDashboardComponent', () => {
     expect(titleDe).toBeTruthy();
   });
 
-  // it('should have a place to display equity', () => {
-  //   const equityDe = fixture.debugElement.query(By.css('#user-equity'));
-
-  //   expect(equityDe).toBeTruthy();
-  // });
-  // it('should have a place to display buying power', () => {
-  //   const buyingPowerDe = fixture.debugElement.query(
-  //     By.css('#user-buying-power')
-  //   );
-
-  //   expect(buyingPowerDe).toBeTruthy();
-  // });
-  // it('should have a place to display cash', () => {
-  //   const cashDe = fixture.debugElement.query(By.css('#user-cash'));
-
-  //   expect(cashDe).toBeTruthy();
-  // });
-
   describe('Render account response state', () => {
     let loadingDe: DebugElement;
     let errorDe: DebugElement;
@@ -84,6 +66,16 @@ describe('AlpacaDashboardComponent', () => {
     const getValueDe = (): DebugElement => {
       return fixture.debugElement.query(By.css('#account-state-value'));
     };
+
+    it('should show error message if accountState is falsy', () => {
+      component.accountState$ = of();
+      fixture.detectChanges();
+      const somethingWentWrong = fixture.debugElement.query(
+        By.css('#account-state-something-went-wrong')
+      );
+
+      expect(somethingWentWrong).toBeTruthy();
+    });
 
     it('should indicate only loading while loading', () => {
       component.accountState$ = of(loadingAccountState);
@@ -120,14 +112,35 @@ describe('AlpacaDashboardComponent', () => {
       expect(errorDe).toBeFalsy();
       expect(valueDe).toBeTruthy();
     });
-  });
 
-  // describe('Render about account', () => {
-  //   beforeEach(() => {
-  //     component.accountState$ = of(valuefulAccountState);
-  //     fixture.detectChanges();
-  //   });
-  // });
+    describe('Render about account', () => {
+      beforeEach(() => {
+        component.accountState$ = of(valuefulAccountState);
+        fixture.detectChanges();
+      });
+
+      it('should display piped equity', () => {
+        const equityDe = fixture.debugElement.query(By.css('#user-equity'));
+        const text = equityDe.nativeElement.innerText;
+
+        expect(text).toContain('$1,234.56');
+      });
+      it('should display piped buying power', () => {
+        const buyingPowerDe = fixture.debugElement.query(
+          By.css('#user-buying-power')
+        );
+        const text = buyingPowerDe.nativeElement.innerText;
+
+        expect(text).toContain('$4,567.89');
+      });
+      it('should display piped cash', () => {
+        const cashDe = fixture.debugElement.query(By.css('#user-cash'));
+        const text = cashDe.nativeElement.innerText;
+
+        expect(text).toContain('$1,234.56');
+      });
+    });
+  });
 
   it('should have #accountState$ injected', () => {
     expect(component.accountState$).toBeTruthy();
