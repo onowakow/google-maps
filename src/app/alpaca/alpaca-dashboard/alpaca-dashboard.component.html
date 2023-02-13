@@ -5,7 +5,9 @@
   error
   value
  -->
-<ng-container *ngIf="accountState$ | async as accountState">
+<ng-container
+  *ngIf="accountState$ | async as accountState; else somethingWentWrong"
+>
   <ng-container *ngIf="accountState.isLoading">
     <div id="account-state-loading">
       <div class="spinner-border" role="status">
@@ -18,11 +20,21 @@
       <p class="text-danger">Error: Something went wrong.</p>
     </div>
   </ng-container>
-  <ng-container *ngIf="accountState.value">
+  <ng-container *ngIf="accountState.value as accountAbout">
     <div id="account-state-value">
-      <!-- <p id="user-equity">EQUITY {{ 4867.98 | currency }}</p>
-    <p id="user-buying-power">BUYING POWER {{ 4867.98 | currency }}</p>
-    <p id="user-cash">CASH {{ 4867.98 | currency }}</p> -->
+      <p id="user-equity">
+        EQUITY
+        {{ accountAbout.equity | currency }}
+      </p>
+      <p id="user-buying-power">
+        BUYING POWER {{ accountAbout.buying_power | currency }}
+      </p>
+      <p id="user-cash">CASH {{ accountAbout.cash | currency }}</p>
     </div>
   </ng-container>
 </ng-container>
+<ng-template #somethingWentWrong>
+  <p id="account-state-something-went-wrong" class="text-danger">
+    Something went wrong.
+  </p>
+</ng-template>

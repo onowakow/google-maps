@@ -11,11 +11,11 @@ const { API_URL } = environment;
 export class AlpacaService {
   constructor(private http: HttpClient) {}
 
-  accountState$: Observable<HttpRequestState<Account | unknown>> = this.http
+  accountState$: Observable<HttpRequestState<Account | null>> = this.http
     .get<Account>(`${API_URL}/alpaca/account`)
     .pipe(
       map((account: Account) => new HttpRequestState(false, account)),
       catchError((error) => of(new HttpRequestState(false, null, error))),
-      startWith(new HttpRequestState(true))
+      startWith(new HttpRequestState(true, null))
     );
 }
