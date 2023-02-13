@@ -10,6 +10,7 @@ const { API_URL } = environment;
 
 import { AlpacaService } from './alpaca.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Account } from './shared/account.model';
 
 describe('AlpacaService', () => {
   let service: AlpacaService;
@@ -32,11 +33,12 @@ describe('AlpacaService', () => {
   });
 
   describe('#accountState$', () => {
-    it('#accountState$ should emit HttpRequestState type on http success', () => {
+    const accountApiUrl = `${API_URL}/alpaca/account`;
+    it('should emit HttpRequestState type on http success', () => {
       const subscription = service.accountState$.subscribe((val) => {
         expect(val instanceof HttpRequestState).toEqual(true);
       });
-      const req = httpTestingController.expectOne(`${API_URL}/alpaca/account`);
+      const req = httpTestingController.expectOne(accountApiUrl);
 
       req.flush('mockBody');
 
@@ -44,7 +46,7 @@ describe('AlpacaService', () => {
     });
 
     // Check that accountState emits right type of error
-    it('#accountState$ should indicate loading and then an error when encountering http error', () => {
+    it('should indicate loading and then an error upon http error', () => {
       const mockHttpError = {
         status: 500,
         statusText: 'Internal service error',
@@ -58,17 +60,40 @@ describe('AlpacaService', () => {
           null,
           new HttpErrorResponse({
             ...mockHttpError,
-            url: 'http://localhost:3002/alpaca/account',
+            url: accountApiUrl,
           })
         ),
       ];
 
-      service.accountState$.subscribe((val) => {
+      const subscription = service.accountState$.subscribe((val) => {
         expect(val).toEqual(expectedValues[observableValueIndex]);
         observableValueIndex++;
       });
-      const req = httpTestingController.expectOne(`${API_URL}/alpaca/account`);
+      const req = httpTestingController.expectOne(accountApiUrl);
       req.flush('', mockHttpError);
+      subscription.unsubscribe();
+    });
+
+    it('should indicate loading and then value upon successful http request', () => {
+      const mockResponse: Account = {
+        account_number: 'ABC',
+        cash: '1234',
+        buying_power: '1234',
+        equity: '1234',
+      };
+      let observableValueIndex = 0;
+      const expectedValues = [
+        new HttpRequestState(true, null, null),
+        new HttpRequestState(false, mockResponse, null),
+      ];
+
+      const subscription = service.accountState$.subscribe((val) => {
+        expect(val).toEqual(expectedValues[observableValueIndex]);
+        observableValueIndex++;
+      });
+      const req = httpTestingController.expectOne(accountApiUrl);
+      req.flush(mockResponse);
+      subscription.unsubscribe();
     });
   });
 });
