@@ -4,6 +4,7 @@ import { AlpacaComponent } from './alpaca.component';
 import { AlpacaNavComponent } from './alpaca-nav/alpaca-nav.component';
 import { AlpacaDashboardComponent } from './alpaca-dashboard/alpaca-dashboard.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { By } from '@angular/platform-browser';
 
 describe('AlpacaComponent', () => {
   let component: AlpacaComponent;
@@ -26,5 +27,15 @@ describe('AlpacaComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show the nav component', () => {
+    expect(fixture.debugElement.query(By.css('app-alpaca-nav'))).toBeTruthy();
+  });
+
+  it('should show the dashboard component', () => {
+    expect(
+      fixture.debugElement.query(By.css('app-alpaca-dashboard'))
+    ).toBeTruthy();
   });
 });
