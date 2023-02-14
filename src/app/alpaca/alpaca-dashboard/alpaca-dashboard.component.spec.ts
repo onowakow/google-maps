@@ -4,6 +4,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of } from 'rxjs';
+import { ErrorComponent } from 'src/app/error/error.component';
 import { Account } from '../shared/account.model';
 import { HttpRequestState } from '../shared/httpRequestState.model';
 
@@ -33,7 +34,7 @@ describe('AlpacaDashboardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [AlpacaDashboardComponent],
+      declarations: [AlpacaDashboardComponent, ErrorComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlpacaDashboardComponent);

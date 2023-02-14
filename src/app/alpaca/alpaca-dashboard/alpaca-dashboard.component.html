@@ -8,11 +8,12 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="accountState.error">
-    <div id="account-state-error">
-      <p class="text-danger">Error: Something went wrong.</p>
-    </div>
-  </ng-container>
+  <app-error
+    id="account-state-error"
+    *ngIf="accountState.error"
+    [error]="accountState.error"
+  >
+  </app-error>
   <div *ngIf="accountState.value as accountAbout">
     <div id="account-state-value" class="row">
       <div class="col-sm-4 d-flex justify-content-center">

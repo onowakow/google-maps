@@ -1,6 +1,10 @@
-<ng-container *ngIf="error">
-  <p class="text-danger mb-0">{{ error.name }}: Something went wrong.</p>
+<ng-container id="error-component-container" *ngIf="error">
+  <p id="error-component-name" class="text-danger mb-0">
+    {{ error.name }}: Something went wrong.
+  </p>
   <ng-container *ngIf="error.message as message">
-    <p class="text-danger">Message: {{ message }}</p>
+    <p id="error-component-message" class="text-danger">
+      Message: {{ message }}
+    </p>
   </ng-container>
 </ng-container>
