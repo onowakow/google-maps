@@ -1,26 +1,28 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ErrorComponent } from 'src/app/error/error.component';
-
 import { AlpacaPositionsComponent } from './alpaca-positions.component';
+
+const mockPosition = {
+  symbol: 'AMZN',
+  exchange: 'NASDAQ',
+  qty: '1',
+  current_price: '98.45',
+  change_today: '-0.0109503717098654',
+};
 
 describe('AlpacaPositionsComponent', () => {
   let component: AlpacaPositionsComponent;
   let fixture: ComponentFixture<AlpacaPositionsComponent>;
   const getPositionsTableDe = () =>
     fixture.debugElement.query(By.css('#alpaca-positions-table'));
-  const mockPosition = {
-    symbol: 'AMZN',
-    exchange: 'NASDAQ',
-    qty: '1',
-    current_price: '98.45',
-    change_today: '-0.0109503717098654',
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AlpacaPositionsComponent, ErrorComponent],
+      imports: [HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlpacaPositionsComponent);
