@@ -14,6 +14,7 @@ import { MarblesComponent } from './marbles/marbles.component';
 import { AlpacaComponent } from './alpaca/alpaca.component';
 import { AlpacaNavComponent } from './alpaca/alpaca-nav/alpaca-nav.component';
 import { AlpacaDashboardComponent } from './alpaca/alpaca-dashboard/alpaca-dashboard.component';
+import { AlpacaPositionsComponent } from './alpaca/alpaca-positions/alpaca-positions.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AlpacaDashboardComponent } from './alpaca/alpaca-dashboard/alpaca-dashb
     AlpacaComponent,
     AlpacaNavComponent,
     AlpacaDashboardComponent,
+    AlpacaPositionsComponent,
   ],
   imports: [
     BrowserModule,

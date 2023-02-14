@@ -1,0 +1,28 @@
+<ng-container *ngIf="positions$ | async as positions">
+  <table *ngIf="positions.length" id="alpaca-positions-table">
+    <thead>
+      <th>Symbol</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Change Today</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let position of positions" class="alpaca-position">
+        <td>{{ position.symbol }}</td>
+        <td>{{ position.qty }}</td>
+        <td>{{ position.current_price }}</td>
+        <td>{{ position.change_today }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+<div
+  *ngIf="positionsLoading$ | async as loading"
+  id="alpaca-table-loading"
+  class="spinner-border"
+  role="status"
+>
+  <span class="visually-hidden">Loading...</span>
+</div>
+<app-error *ngIf="positionsError$ | async as error" [error]="error">
+</app-error>
