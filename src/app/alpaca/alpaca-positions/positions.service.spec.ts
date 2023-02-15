@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -9,6 +9,13 @@ const { API_URL } = environment;
 
 import { PositionsService } from './positions.service';
 
+const positionsApiUrl = `${API_URL}/alpaca/positions`;
+const mockHttpError = new HttpErrorResponse({
+  status: 500,
+  statusText: 'Mock Internal Service Error',
+  url: positionsApiUrl,
+});
+
 describe('PositionsService', () => {
   let service: PositionsService;
   let httpMock: HttpTestingController;
@@ -17,11 +24,11 @@ describe('PositionsService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
-    httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(PositionsService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  afterAll(() => {
+  afterEach(() => {
     httpMock.verify();
   });
 
@@ -31,11 +38,30 @@ describe('PositionsService', () => {
 
   describe('#positions$ on subscription', () => {
     it('should make an http call', () => {
-      const subscription = service.positions$.subscribe();
+      const subscription = service.positions$.subscribe((val) => {
+        expect(val).toBeTruthy();
+      });
 
-      const req = httpMock.expectOne(`${API_URL}/alpaca/positions`);
+      const req = httpMock.expectOne(positionsApiUrl);
       req.flush('body');
       subscription.unsubscribe();
+    });
+
+    it('#positionsError$ should emit if an error is received via http', () => {
+      const positionsSubscription = service.positions$.subscribe();
+      const req = httpMock.expectOne(positionsApiUrl);
+
+      req.flush(null, mockHttpError);
+
+      const positionsErrorSubscription = service.positionsError$.subscribe(
+        (val) => {
+          console.log(val);
+          expect(val).toEqual(mockHttpError);
+        }
+      );
+
+      positionsSubscription.unsubscribe();
+      positionsErrorSubscription.unsubscribe();
     });
   });
 });

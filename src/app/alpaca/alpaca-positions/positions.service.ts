@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -15,16 +15,18 @@ interface Position {
   providedIn: 'root',
 })
 export class PositionsService {
-  // Refactor for Positions type
-  // Add tests for error and loading
-  // Work into _positionsRequest$
-  private _positionsRequest$ = this.httpClient.get<Position>(
-    `${API_URL}/alpaca/positions`
-  );
+  private _positionsErrorSubject$ = new BehaviorSubject<
+    HttpErrorResponse | Error | null
+  >(null);
+  private _positionsRequest$ = this.httpClient
+    .get<Position>(`${API_URL}/alpaca/positions`)
+    .pipe(
+      catchError(async (error) => this._positionsErrorSubject$.next(error))
+    );
 
   constructor(private httpClient: HttpClient) {}
 
   positions$ = this._positionsRequest$;
-  positionsError$ = of([]);
-  positionsLoading$ = of([]);
+  positionsError$ = this._positionsErrorSubject$.asObservable();
+  positionsLoading$ = of(false);
 }
