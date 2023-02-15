@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, of, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, startWith, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Position } from './position.model';
 const { API_URL } = environment;
@@ -13,13 +13,14 @@ export class PositionsService {
     HttpErrorResponse | Error | null
   >(null);
   private _positionsRequest$ = this.httpClient
-    .get<Position[]>(`${API_URL}/alpaca/positions`)
+    .get<Position[] | never[]>(`${API_URL}/alpaca/positions`)
     .pipe(
       catchError(async (error) => {
         this._positionsErrorSubject$.next(error);
 
-        return null;
-      })
+        return [];
+      }),
+      startWith([])
     );
 
   constructor(private httpClient: HttpClient) {}

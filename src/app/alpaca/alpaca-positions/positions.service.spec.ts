@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { environment } from 'src/environments/environment';
+import { Position } from './position.model';
 const { API_URL } = environment;
 
 import { PositionsService } from './positions.service';
@@ -15,6 +16,13 @@ const mockHttpError = new HttpErrorResponse({
   statusText: 'Mock Internal Service Error',
   url: positionsApiUrl,
 });
+const mockPosition: Position = {
+  symbol: 'AMZN',
+  exchange: 'NASDAQ',
+  qty: '1',
+  current_price: '101.25',
+  change_today: '0.0155466399197593',
+};
 
 describe('PositionsService', () => {
   let service: PositionsService;
@@ -37,13 +45,26 @@ describe('PositionsService', () => {
   });
 
   describe('#positions$ on subscription', () => {
-    it('should make an http call', () => {
+    it('should initially emit an empty array', () => {
+      let emitIndex = 0;
       const subscription = service.positions$.subscribe((val) => {
-        expect(val).toBeTruthy();
+        if (emitIndex === 0) expect(val.length).toEqual(0);
+        emitIndex++;
       });
 
       const req = httpMock.expectOne(positionsApiUrl);
-      req.flush('body');
+      req.flush([mockPosition]);
+      subscription.unsubscribe();
+    });
+    it('should make an http call', () => {
+      let emitIndex = 0;
+      const subscription = service.positions$.subscribe((val) => {
+        if (emitIndex === 1) expect(val).toEqual([mockPosition]);
+        emitIndex++;
+      });
+
+      const req = httpMock.expectOne(positionsApiUrl);
+      req.flush([mockPosition]);
       subscription.unsubscribe();
     });
 
@@ -55,7 +76,6 @@ describe('PositionsService', () => {
 
       const positionsErrorSubscription = service.positionsError$.subscribe(
         (val) => {
-          console.log(val);
           expect(val).toEqual(mockHttpError);
         }
       );
