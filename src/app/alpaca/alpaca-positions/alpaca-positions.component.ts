@@ -8,8 +8,6 @@ import { PositionsService } from './positions.service';
 })
 export class AlpacaPositionsComponent {
   positions$ = this._positionsService.positions$;
-  positionsError$ = this._positionsService.positionsError$;
-  positionsLoading$ = this._positionsService.positionsLoading$;
 
   constructor(private _positionsService: PositionsService) {}
 }

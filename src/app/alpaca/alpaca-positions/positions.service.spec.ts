@@ -27,6 +27,8 @@ const mockPosition: Position = {
 describe('PositionsService', () => {
   let service: PositionsService;
   let httpMock: HttpTestingController;
+  let httpMockRespondSuccessfully: () => void;
+  let httpMockRespondErroneously: () => void;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,6 +36,14 @@ describe('PositionsService', () => {
     });
     service = TestBed.inject(PositionsService);
     httpMock = TestBed.inject(HttpTestingController);
+    httpMockRespondSuccessfully = () => {
+      const req = httpMock.expectOne(positionsApiUrl);
+      req.flush([mockPosition]);
+    };
+    httpMockRespondErroneously = () => {
+      const req = httpMock.expectOne(positionsApiUrl);
+      req.flush(null, mockHttpError);
+    };
   });
 
   afterEach(() => {
@@ -44,44 +54,94 @@ describe('PositionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('#positions$ on subscription', () => {
-    it('should initially emit an empty array', () => {
+  describe('#positions$', () => {
+    it('should have an initial request state value of an empty array', () => {
       let emitIndex = 0;
-      const subscription = service.positions$.subscribe((val) => {
-        if (emitIndex === 0) expect(val.length).toEqual(0);
+      const subscription = service.positions$.subscribe((requestState) => {
+        const { value } = requestState;
+        if (emitIndex === 0) expect(value.length).toEqual(0);
         emitIndex++;
       });
 
-      const req = httpMock.expectOne(positionsApiUrl);
-      req.flush([mockPosition]);
+      httpMockRespondSuccessfully();
       subscription.unsubscribe();
     });
-    it('should make an http call', () => {
+    it('should make an http call and have a request state value matching the http response', () => {
       let emitIndex = 0;
-      const subscription = service.positions$.subscribe((val) => {
-        if (emitIndex === 1) expect(val).toEqual([mockPosition]);
+      const subscription = service.positions$.subscribe((requestState) => {
+        const { value } = requestState;
+        if (emitIndex === 1) expect(value).toEqual([mockPosition]);
         emitIndex++;
       });
 
-      const req = httpMock.expectOne(positionsApiUrl);
-      req.flush([mockPosition]);
+      httpMockRespondSuccessfully();
+
+      expect(emitIndex).toEqual(2);
       subscription.unsubscribe();
     });
 
-    it('#positionsError$ should emit if an error is received via http', () => {
-      const positionsSubscription = service.positions$.subscribe();
-      const req = httpMock.expectOne(positionsApiUrl);
+    describe('#positions$ loading indication', () => {
+      it('should indicate loading appropriately on successful http response', () => {
+        let RESPONSE_RECEIVED = false;
+        const subscription = service.positions$.subscribe((requestState) => {
+          const { value } = requestState;
+          if (value.length) {
+            RESPONSE_RECEIVED = true;
+          }
 
-      req.flush(null, mockHttpError);
+          if (!RESPONSE_RECEIVED) {
+            expect(requestState.isLoading).toBeTrue();
+          } else {
+            expect(requestState.isLoading).toBeFalse();
+          }
+        });
 
-      const positionsErrorSubscription = service.positionsError$.subscribe(
-        (val) => {
-          expect(val).toEqual(mockHttpError);
-        }
-      );
+        httpMockRespondSuccessfully();
+        expect(RESPONSE_RECEIVED).toBeTrue();
+        subscription.unsubscribe();
+      });
+      it('should indicate loading appropriately on failed http response', () => {
+        let RESPONSE_RECEIVED = false;
+        const subscription = service.positions$.subscribe((requestState) => {
+          const { error } = requestState;
+          if (error) RESPONSE_RECEIVED = true;
 
-      positionsSubscription.unsubscribe();
-      positionsErrorSubscription.unsubscribe();
+          if (!RESPONSE_RECEIVED) {
+            expect(requestState.isLoading).toBeTrue();
+          } else {
+            expect(requestState.isLoading).toBeFalse();
+          }
+        });
+
+        httpMockRespondErroneously();
+        expect(RESPONSE_RECEIVED).toBeTrue();
+        subscription.unsubscribe();
+      });
+    });
+
+    describe('#positions$ error indication', () => {
+      it('should not indicate error on successful response', () => {
+        const subscription = service.positions$.subscribe((requestState) => {
+          const { error, isLoading } = requestState;
+          if (isLoading === false) {
+            expect(error).toEqual(null);
+          }
+        });
+
+        httpMockRespondSuccessfully();
+        subscription.unsubscribe();
+      });
+      it('should indicate error on erroneous response', () => {
+        const subscription = service.positions$.subscribe((requestState) => {
+          const { error, isLoading } = requestState;
+          if (isLoading === false) {
+            expect(error).not.toBeNull();
+          }
+        });
+
+        httpMockRespondErroneously();
+        subscription.unsubscribe();
+      });
     });
   });
 });
