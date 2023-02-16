@@ -12,7 +12,7 @@
           <td>{{ position.symbol }}</td>
           <td>{{ position.qty }}</td>
           <td>{{ position.current_price }}</td>
-          <td>{{ position.change_today }}</td>
+          <td>{{ position.change_today | percent : "1.2" }}</td>
         </tr>
       </tbody>
     </table>
