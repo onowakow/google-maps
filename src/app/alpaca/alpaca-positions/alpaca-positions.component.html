@@ -17,13 +17,14 @@
       </tbody>
     </table>
   </ng-container>
+  <div
+    *ngIf="positionsRequest.isLoading"
+    id="alpaca-table-loading"
+    class="spinner-border"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <app-error *ngIf="positionsRequest.error as error" [error]="error">
+  </app-error>
 </ng-container>
-<div
-  *ngIf="false"
-  id="alpaca-table-loading"
-  class="spinner-border"
-  role="status"
->
-  <span class="visually-hidden">Loading...</span>
-</div>
-<app-error *ngIf="false"> </app-error>

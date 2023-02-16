@@ -18,6 +18,7 @@ const mockError = new HttpErrorResponse({
   status: 500,
   statusText: 'mock internal service error',
 });
+const mockLoadingPositionsRequestState = new HttpRequestState(true, [], null);
 const mockSuccessfulPositionsRequestState = new HttpRequestState(
   false,
   [mockPosition],
@@ -99,37 +100,46 @@ describe('AlpacaPositionsComponent', () => {
     });
   });
 
-  // it('should display loading message if loading', () => {
-  //   component.positionsLoading$ = of(true);
-  //   fixture.detectChanges();
-  //   const tableLoadingDe = fixture.debugElement.query(
-  //     By.css('#alpaca-table-loading')
-  //   );
+  it('should display loading message if loading', () => {
+    component.positions$ = of(mockLoadingPositionsRequestState);
+    fixture.detectChanges();
+    const tableLoadingDe = fixture.debugElement.query(
+      By.css('#alpaca-table-loading')
+    );
 
-  //   expect(tableLoadingDe).toBeTruthy();
-  // });
-  // it('should not display loading message if not loading', () => {
-  //   component.positionsLoading$ = of(false);
-  //   fixture.detectChanges();
-  //   const tableLoadingDe = fixture.debugElement.query(
-  //     By.css('#alpaca-table-loading')
-  //   );
+    expect(tableLoadingDe).toBeTruthy();
+  });
+  it('should not display loading message with successful response', () => {
+    component.positions$ = of(mockSuccessfulPositionsRequestState);
+    fixture.detectChanges();
+    const tableLoadingDe = fixture.debugElement.query(
+      By.css('#alpaca-table-loading')
+    );
 
-  //   expect(tableLoadingDe).toBeFalsy();
-  // });
+    expect(tableLoadingDe).toBeFalsy();
+  });
+  it('should not display loading message with failed response', () => {
+    component.positions$ = of(mockFailedPositionsRequestState);
+    fixture.detectChanges();
+    const tableLoadingDe = fixture.debugElement.query(
+      By.css('#alpaca-table-loading')
+    );
 
-  // it('should display an error if error', () => {
-  //   component.positionsError$ = of(new Error('error'));
-  //   fixture.detectChanges();
-  //   const errorComponentDe = fixture.debugElement.query(By.css('app-error'));
+    expect(tableLoadingDe).toBeFalsy();
+  });
 
-  //   expect(errorComponentDe).toBeTruthy();
-  // });
-  // it('should not display an error if no error', () => {
-  //   component.positionsError$ = of(null);
-  //   fixture.detectChanges();
-  //   const errorComponentDe = fixture.debugElement.query(By.css('app-error'));
+  it('should display an error if error', () => {
+    component.positions$ = of(mockFailedPositionsRequestState);
+    fixture.detectChanges();
+    const errorComponentDe = fixture.debugElement.query(By.css('app-error'));
 
-  //   expect(errorComponentDe).toBeFalsy();
-  // });
+    expect(errorComponentDe).toBeTruthy();
+  });
+  it('should not display an error if no error', () => {
+    component.positions$ = of(mockSuccessfulPositionsRequestState);
+    fixture.detectChanges();
+    const errorComponentDe = fixture.debugElement.query(By.css('app-error'));
+
+    expect(errorComponentDe).toBeFalsy();
+  });
 });
